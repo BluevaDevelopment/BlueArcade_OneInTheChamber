@@ -1,6 +1,6 @@
 name: One In The Chamber
 id: one_in_the_chamber
-version: 1.0.0
+version: 1.0.1
 type: MICROGAME
 api-version: 1.0
 main: net.blueva.arcade.modules.oneinthechamber.OneInTheChamberModule

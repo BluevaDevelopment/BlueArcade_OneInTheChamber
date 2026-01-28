@@ -29,6 +29,7 @@ public class LoadoutService {
 
     public void applyRespawnLoadout(Player player) {
         restorePlayerHealthAndHunger(player);
+        giveStartingItems(player);
         ensureMinimumArrows(player);
         applyStartingEffects(player);
         applyRespawnEffects(player);
