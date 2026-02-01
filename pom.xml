@@ -8,32 +8,10 @@
     <groupId>net.blueva.arcade.modules</groupId>
     <artifactId>OneInTheChamber-Module</artifactId>
     <version>1.0.1</version>
+    <packaging>pom</packaging>
 
-    <properties>
-        <maven.compiler.release>21</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.github.BluevaDevelopment</groupId>
-            <artifactId>BlueArcadeAPI</artifactId>
-            <version>3.0.0-2</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.21.3-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>oneinthechamber-minecraft</module>
+        <module>oneinthechamber-hytale</module>
+    </modules>
 </project>

@@ -47,6 +47,11 @@ Finish the setup with the commands below:
 - **Minigame ID:** `one_in_the_chamber`
 - **Module Type:** `MICROGAME`
 
+## Building individual editions
+If you only need one edition, you can build it on its own:
+- `mvn clean package -pl oneinthechamber-minecraft -am`
+- `mvn clean package -pl oneinthechamber-hytale -am`
+
 ## Links & Support
 - Website: https://www.blueva.net
 - Documentation: https://docs.blueva.net/books/blue-arcade

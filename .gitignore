@@ -29,3 +29,5 @@ target/
 .env
 .env.local
 .env.*.local
+
+oneinthechamber-hytale/libs/

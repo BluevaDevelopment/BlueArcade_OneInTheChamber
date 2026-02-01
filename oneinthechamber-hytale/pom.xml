@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.blueva.arcade.modules</groupId>
+        <artifactId>OneInTheChamber-Module</artifactId>
+        <version>1.0.1</version>
+    </parent>
+
+    <artifactId>OneInTheChamber-Module-Hytale</artifactId>
+
+
+    <properties>
+        <maven.compiler.release>25</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>hytale-release</id>
+            <url>https://maven.hytale.com/release</url>
+        </repository>
+        <repository>
+            <id>hytale-pre-release</id>
+            <url>https://maven.hytale.com/pre-release</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.BluevaDevelopment</groupId>
+            <artifactId>BlueArcadeAPI</artifactId>
+            <version>3.0.0-2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hypixel.hytale</groupId>
+            <artifactId>Server</artifactId>
+            <version>2026.01.28-87d03be09</version>
+        </dependency>
+    </dependencies>
+</project>

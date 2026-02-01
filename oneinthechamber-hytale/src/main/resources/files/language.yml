@@ -1,0 +1,108 @@
+# One In The Chamber Module - English (UK)
+# Only One In The Chamber-specific content
+
+file_version: 1
+display_name: "One In The Chamber"
+
+description:
+  last_standing:
+    - "<dark_gray><strikethrough>----------------------------------------------</strikethrough></dark_gray>"
+    - "<green>Game</green> <gray>-</gray> <yellow><bold>One In The Chamber</bold></yellow>"
+    - " "
+    - "<white>Description:</white>"
+    - "<gray>Everyone gets a bow and a single arrow.</gray>"
+    - "<gray>Make every shot count - one hit, one elimination.</gray>"
+    - "<gray>Keep a wooden sword handy when you run dry.</gray>"
+    - " "
+    - "<dark_gray><strikethrough>----------------------------------------------</strikethrough></dark_gray>"
+  most_kills:
+    - "<dark_gray><strikethrough>----------------------------------------------</strikethrough></dark_gray>"
+    - "<green>Game</green> <gray>-</gray> <yellow><bold>One In The Chamber</bold></yellow>"
+    - " "
+    - "<white>Description:</white>"
+    - "<gray>Instant arrows, quick respawns.</gray>"
+    - "<gray>Chain eliminations to keep your quiver filled.</gray>"
+    - "<gray>Top the killboard before the timer ends.</gray>"
+    - " "
+    - "<dark_gray><strikethrough>----------------------------------------------</strikethrough></dark_gray>"
+
+# Vote menu
+vote_menu:
+  name: "<green>One In The Chamber</green>"
+  lore:
+    - "<gray>Precision bow duels with a single arrow.</gray>"
+    - "<gray>Earn arrows on every elimination.</gray>"
+    - ""
+    - "<white>{votes}</white> <gray>votes.</gray>"
+
+stats:
+  labels:
+    arrows_shot: "Arrows shot"
+    hits_landed: "Hits landed"
+    kills: "Kills"
+    games_played: "One In The Chamber games played"
+    wins: "One In The Chamber wins"
+
+messages:
+  eliminated: "<red>You are out! You are now a spectator.</red>"
+  deaths:
+    killed_by_player:
+      - "<dark_red>X</dark_red> <yellow>{killer}</yellow> <gray>lined up the perfect shot on</gray> <red>{victim}</red><gray>.</gray>"
+      - "<dark_red>X</dark_red> <red>{victim}</red> <gray>was picked off by</gray> <yellow>{killer}</yellow><gray>'s arrow.</gray>"
+      - "<dark_red>X</dark_red> <yellow>{killer}</yellow> <gray>did not miss when</gray> <red>{victim}</red> <gray>peeked.</gray>"
+      - "<dark_red>X</dark_red> <red>{victim}</red> <gray>could not dodge</gray> <yellow>{killer}</yellow><gray>'s chamber bolt.</gray>"
+    generic:
+      - "<dark_red>X</dark_red> <red>{victim}</red> <gray>ran out of chances in the arena.</gray>"
+      - "<dark_red>X</dark_red> <red>{victim}</red> <gray>fell before another arrow could be loosed.</gray>"
+      - "<dark_red>X</dark_red> <red>{victim}</red> <gray>lost their shot and their life.</gray>"
+
+titles:
+  you_died:
+    title: "<red><bold>YOU DIED</bold></red>"
+    subtitle: "<gray>Better luck next time.</gray>"
+  classified:
+    title: "<yellow><bold>CLASSIFIED</bold></yellow>"
+    subtitle: "<gray>You have been eliminated.</gray>"
+
+scoreboard:
+  mode_labels:
+    last_standing: "Last Arrow"
+    most_kills: "Most Kills"
+  last_standing:
+    title: "<bold><gradient:aqua:light_purple>Blue Arcade</gradient></bold>"
+    lines:
+      - ""
+      - "<white>Arena:</white> <aqua>{arena}</aqua>"
+      - "<white>Game:</white> <aqua>One In The Chamber</aqua>"
+      - "<white>Time:</white> <aqua>{time}</aqua>"
+      - ""
+      - "<white>Kills:</white> <red>{kills}</red>"
+      - "<white>Alive:</white> <green>{alive}</green>"
+      - "<white>Spectators:</white> <gray>{spectators}</gray>"
+      - ""
+      - "<yellow>www.blueva.net</yellow>"
+  most_kills:
+    title: "<bold><gradient:aqua:light_purple>Blue Arcade</gradient></bold>"
+    lines:
+      - ""
+      - "<white>Arena:</white> <aqua>{arena}</aqua>"
+      - "<white>Game:</white> <aqua>One In The Chamber</aqua>"
+      - "<white>Time:</white> <aqua>{time}</aqua>"
+      - ""
+      - "<green>1.</green> <white>{place_1}</white> <gray>{kills_1}</gray>"
+      - "<gold>2.</gold> <white>{place_2}</white> <gray>{kills_2}</gray>"
+      - "<red>3.</red> <white>{place_3}</white> <gray>{kills_3}</gray>"
+      - "<dark_gray>4.</dark_gray> <gray>{place_4}</gray> <dark_gray>{kills_4}</dark_gray>"
+      - "<dark_gray>5.</dark_gray> <gray>{place_5}</gray> <dark_gray>{kills_5}</dark_gray>"
+      - ""
+      - "<white>Your Kills:</white> <red>{kills}</red>"
+      - ""
+      - "<yellow>www.blueva.net</yellow>"
+
+setup_messages:
+  usage: "{prefix} <yellow>Usage: /baa game --id=<id> --game=one_in_the_chamber --action=<setmode|setregion> --value=<last_standing|most_kills|set></yellow>"
+  mode_set: "{prefix} <green>One In The Chamber mode set to {mode}.</green>"
+  usage_setmode: "{prefix} <yellow>Usage: /baa game --id=<id> --game=one_in_the_chamber --action=setmode --value=<last_standing|most_kills></yellow>"
+  usage_setregion: "{prefix} <yellow>Usage: /baa game --id=<id> --game=one_in_the_chamber --action=setregion --value=set</yellow>"
+  must_use_stick: "{prefix} <yellow>Select two corners with the setup tool first.</yellow>"
+  region_set: "{prefix} <green>Play area saved.</green> <gray>Blocks:</gray> <white>{blocks}</white> <gray>({x}x{y}x{z})</gray>"
