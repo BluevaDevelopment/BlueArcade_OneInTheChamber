@@ -228,6 +228,11 @@ public class OneInTheChamberGameManager {
             return;
         }
 
+        // Don't eliminate spectators
+        if (context.getSpectators().contains(target)) {
+            return;
+        }
+
         Location deathLocation = target.getLocation();
         playVisualEffects(target, killer, deathLocation);
 

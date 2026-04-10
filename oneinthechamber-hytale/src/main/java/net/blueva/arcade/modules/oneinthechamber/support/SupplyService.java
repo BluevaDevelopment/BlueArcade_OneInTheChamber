@@ -60,7 +60,7 @@ public class SupplyService {
             return;
         }
 
-        ItemContainer container = inventory.getCombinedEverything();
+        ItemContainer container = inventory.getStorage();
         if (container == null) {
             return;
         }

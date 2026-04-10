@@ -9,7 +9,7 @@ import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
+import com.hypixel.hytale.component.Holder;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,7 +26,7 @@ public class MessagingService {
         this.moduleInfo = moduleInfo;
     }
 
-    public void sendDescription(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void sendDescription(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                 String winMode) {
         String descriptionKey = "description." + winMode;
         List<String> description = moduleConfig.getStringListFrom("language.yml", descriptionKey);
@@ -41,7 +41,7 @@ public class MessagingService {
         }
     }
 
-    public void sendCountdownTick(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void sendCountdownTick(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                   int secondsLeft) {
         for (Player player : context.getPlayers()) {
             context.getSoundsAPI().play(player, coreConfig.getSound("sounds.starting_game.countdown"));
@@ -58,7 +58,7 @@ public class MessagingService {
         }
     }
 
-    public void sendCountdownFinish(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public void sendCountdownFinish(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         for (Player player : context.getPlayers()) {
             String title = coreConfig.getLanguage("titles.game_started.title")
                     .replace("{game_display_name}", moduleInfo.getName());
@@ -71,7 +71,7 @@ public class MessagingService {
         }
     }
 
-    public void sendDeathTitle(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void sendDeathTitle(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                Player target,
                                boolean killed) {
         if (killed) {
@@ -90,9 +90,14 @@ public class MessagingService {
                 0, 80, 20);
     }
 
-    public void broadcastDeathMessage(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void broadcastDeathMessage(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                       Player victim,
                                       Player killer) {
+        // Don't broadcast death messages for spectators
+        if (context.getSpectators().contains(victim)) {
+            return;
+        }
+
         String path = killer != null ? "messages.deaths.killed_by_player" : "messages.deaths.generic";
         String message = getRandomMessage(path);
 

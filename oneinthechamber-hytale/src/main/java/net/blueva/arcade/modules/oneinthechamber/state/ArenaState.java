@@ -6,19 +6,19 @@ import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
+import com.hypixel.hytale.component.Holder;
 
 import java.util.UUID;
 
 public class ArenaState {
 
     private final int arenaId;
-    private final GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context;
+    private final GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context;
     private boolean ended;
     private UUID winner;
     private int supplyTicks;
 
-    public ArenaState(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public ArenaState(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         this.arenaId = context.getArenaId();
         this.context = context;
     }
@@ -27,7 +27,7 @@ public class ArenaState {
         return arenaId;
     }
 
-    public GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> getContext() {
+    public GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> getContext() {
         return context;
     }
 

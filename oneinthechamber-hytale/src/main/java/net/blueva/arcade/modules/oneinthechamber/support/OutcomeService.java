@@ -8,7 +8,7 @@ import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
+import com.hypixel.hytale.component.Holder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +27,7 @@ public class OutcomeService {
         this.killTracker = killTracker;
     }
 
-    public String getWinMode(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public String getWinMode(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         String mode = context.getDataAccess().getGameData("basic.win_mode", String.class);
         if (mode == null) {
             return "last_standing";
@@ -46,11 +46,11 @@ public class OutcomeService {
         return moduleConfig.getStringFrom("language.yml", "scoreboard.mode_labels.last_standing");
     }
 
-    public String getScoreboardPath(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public String getScoreboardPath(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         return "scoreboard." + getWinMode(context);
     }
 
-    public List<Player> getTopPlayersByKills(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public List<Player> getTopPlayersByKills(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                              Collection<Player> players,
                                              int limit) {
         Map<Player, Integer> killCounts = new HashMap<>();

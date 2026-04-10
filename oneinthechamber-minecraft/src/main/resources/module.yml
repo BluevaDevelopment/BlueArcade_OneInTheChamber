@@ -1,12 +1,12 @@
 name: One In The Chamber
 id: one_in_the_chamber
-version: 1.0.1
+version: ${revision}
 type: MICROGAME
-api-version: 1.0
+api-version: 3.3
 main: net.blueva.arcade.modules.oneinthechamber.OneInTheChamberModule
 
 authors:
   - Blueva
   - Whiron
 
-description: "One In The Chamber minigame - bow precision with one arrow at a time."
+description: "Bow precision with one arrow at a time."

@@ -31,7 +31,7 @@ import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
 import com.hypixel.hytale.server.core.modules.entitystats.asset.DefaultEntityStatTypes;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
+import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.protocol.MovementSettings;
 
@@ -71,7 +71,7 @@ public class OneInTheChamberGameManager {
         this.supplyService = new SupplyService(moduleConfig);
     }
 
-    public void handleStart(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public void handleStart(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         int arenaId = context.getArenaId();
 
         context.getSchedulerAPI().cancelArenaTasks(arenaId);
@@ -85,12 +85,12 @@ public class OneInTheChamberGameManager {
         messagingService.sendDescription(context, outcomeService.getWinMode(context));
     }
 
-    public void handleCountdownTick(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void handleCountdownTick(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                     int secondsLeft) {
         messagingService.sendCountdownTick(context, secondsLeft);
     }
 
-    public void handleCountdownFinish(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public void handleCountdownFinish(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         messagingService.sendCountdownFinish(context);
     }
 
@@ -98,7 +98,7 @@ public class OneInTheChamberGameManager {
         return false;
     }
 
-    public void handleGameStart(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public void handleGameStart(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         startGameTimer(context);
         startMovementTracking(context);
 
@@ -108,7 +108,7 @@ public class OneInTheChamberGameManager {
         }
     }
 
-    private void startGameTimer(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    private void startGameTimer(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         int arenaId = context.getArenaId();
         ArenaState state = arenaRegistry.get(arenaId);
         if (state == null) {
@@ -166,7 +166,7 @@ public class OneInTheChamberGameManager {
         }, 0L, 20L);
     }
 
-    private void endGameOnce(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    private void endGameOnce(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         int arenaId = context.getArenaId();
         ArenaState state = arenaRegistry.get(arenaId);
         if (state == null) {
@@ -196,7 +196,7 @@ public class OneInTheChamberGameManager {
         context.endGame();
     }
 
-    public void handleEnd(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void handleEnd(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                           GameResult<Player> result) {
         int arenaId = context.getArenaId();
 
@@ -235,7 +235,7 @@ public class OneInTheChamberGameManager {
         statsService.recordHit(attacker);
     }
 
-    public void handleKillCredit(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void handleKillCredit(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                  Player killer) {
         if (context == null || killer == null) {
             return;
@@ -246,10 +246,15 @@ public class OneInTheChamberGameManager {
         loadoutService.rewardKillArrow(killer);
     }
 
-    public void handlePlayerElimination(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void handlePlayerElimination(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                         Player target,
                                         Player killer) {
         if (context == null || target == null) {
+            return;
+        }
+
+        // Don't eliminate spectators
+        if (context.getSpectators().contains(target)) {
             return;
         }
 
@@ -309,7 +314,7 @@ public class OneInTheChamberGameManager {
         }
     }
 
-    public void handleRespawn(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    public void handleRespawn(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                               Player player) {
         context.respawnPlayer(player);
         restorePlayerHealth(player);
@@ -317,7 +322,7 @@ public class OneInTheChamberGameManager {
         context.getSoundsAPI().play(player, coreConfig.getSound("sounds.in_game.respawn"));
     }
 
-    public GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> getGameContext(Player player) {
+    public GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> getGameContext(Player player) {
         Integer arenaId = playerArenaRegistry.getArenaId(player);
         if (arenaId == null) {
             return null;
@@ -328,7 +333,7 @@ public class OneInTheChamberGameManager {
     public Map<String, String> getCustomPlaceholders(Player player) {
         Map<String, String> placeholders = new HashMap<>();
 
-        GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context = getGameContext(player);
+        GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context = getGameContext(player);
         if (context != null) {
             placeholders.put("alive", String.valueOf(context.getAlivePlayers().size()));
             placeholders.put("spectators", String.valueOf(context.getSpectators().size()));
@@ -356,15 +361,15 @@ public class OneInTheChamberGameManager {
         return placeholders;
     }
 
-    public String resolveScoreboardPath(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public String resolveScoreboardPath(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         return outcomeService.getScoreboardPath(context);
     }
 
-    public String resolveWinMode(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public String resolveWinMode(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         return outcomeService.getWinMode(context);
     }
 
-    private void handleMostKillsOutcome(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    private void handleMostKillsOutcome(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         List<Player> topPlayers = outcomeService.getTopPlayersByKills(context, context.getPlayers(), 5);
         if (topPlayers.isEmpty()) {
             return;
@@ -383,7 +388,7 @@ public class OneInTheChamberGameManager {
         }
     }
 
-    private void handleLastStandingTimeout(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    private void handleLastStandingTimeout(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                            List<Player> alivePlayers) {
         List<Player> sortedByKills = outcomeService.getTopPlayersByKills(context, alivePlayers, alivePlayers.size());
         if (sortedByKills.isEmpty()) {
@@ -419,7 +424,7 @@ public class OneInTheChamberGameManager {
         }
     }
 
-    public String resolveDeathBlock(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    public String resolveDeathBlock(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         try {
             String deathBlockName = context.getDataAccess().getGameData("basic.death_block", String.class);
             if (deathBlockName != null) {
@@ -431,34 +436,51 @@ public class OneInTheChamberGameManager {
         return "hytale:barrier";
     }
 
-    private void startMovementTracking(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    private void startMovementTracking(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         int arenaId = context.getArenaId();
         String taskId = "arena_" + arenaId + "_one_in_the_chamber_movement";
-        context.getSchedulerAPI().runTimer(taskId, () -> handleMovementTick(context), 0L, 5L);
+        Location worldLocation = context.getArenaAPI().getRandomSpawn();
+        if (worldLocation == null) {
+            worldLocation = context.getArenaAPI().getBoundsMin();
+        }
+        if (worldLocation != null) {
+            context.getSchedulerAPI().runTimer(taskId, () -> handleMovementTick(context), 0L, 5L);
+        } else {
+            context.getSchedulerAPI().runTimer(taskId, () -> handleMovementTick(context), 0L, 5L);
+        }
     }
 
-    private void handleMovementTick(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    private void handleMovementTick(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         for (Player player : context.getPlayers()) {
             if (player == null) {
                 continue;
             }
-            Location current = resolvePlayerLocation(player);
-            if (current == null) {
-                continue;
-            }
-
-            if (!context.isInsideBounds(current)) {
-                handleRespawn(context, player);
-                continue;
-            }
-
-            if (context.getPhase() == GamePhase.PLAYING && isOnDeathBlock(context, current)) {
-                handleRespawn(context, player);
-            }
+            handleMovementTickForPlayer(context, player);
         }
     }
 
-    private boolean isOnDeathBlock(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    private void handleMovementTickForPlayer(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
+                                             Player player) {
+        World world = player.getWorld();
+        if (world == null) {
+            return;
+        }
+        world.execute(() -> {
+            Location current = resolvePlayerLocation(player);
+            if (current == null) {
+                return;
+            }
+            if (!context.isInsideBounds(current)) {
+                handleRespawn(context, player);
+                return;
+            }
+            if (context.getPhase() == GamePhase.PLAYING && isOnDeathBlock(context, current)) {
+                handleRespawn(context, player);
+            }
+        });
+    }
+
+    private boolean isOnDeathBlock(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                    Location location) {
         // Death block checks are disabled in Hytale because block access requires the world thread.
         // Movement polling runs on the scheduler thread, so avoid unsafe block reads here.
@@ -474,7 +496,7 @@ public class OneInTheChamberGameManager {
         return new Location(player.getWorld().getName(), position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
     }
 
-    private void applyTemporarySpectatorState(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    private void applyTemporarySpectatorState(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                               Player player) {
         if (context == null || player == null) {
             return;
@@ -486,7 +508,7 @@ public class OneInTheChamberGameManager {
         setSpectatorState(context, player, true);
     }
 
-    private void clearTemporarySpectatorState(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    private void clearTemporarySpectatorState(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                               Player player) {
         if (context == null || player == null) {
             return;
@@ -502,7 +524,7 @@ public class OneInTheChamberGameManager {
         setSpectatorState(context, player, false);
     }
 
-    private void clearTemporarySpectators(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context) {
+    private void clearTemporarySpectators(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context) {
         if (context == null) {
             return;
         }
@@ -519,7 +541,7 @@ public class OneInTheChamberGameManager {
         }
     }
 
-    private void setSpectatorState(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    private void setSpectatorState(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                    Player player,
                                    boolean spectator) {
         if (player == null) {
@@ -529,7 +551,7 @@ public class OneInTheChamberGameManager {
         updateSpectatorFlight(player, spectator);
     }
 
-    private void updateSpectatorVisibility(GameContext<Player, Location, World, String, ItemStack, String, BlockState, Entity> context,
+    private void updateSpectatorVisibility(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
                                            Player spectator,
                                            boolean hidden) {
         if (context == null || spectator == null) {
