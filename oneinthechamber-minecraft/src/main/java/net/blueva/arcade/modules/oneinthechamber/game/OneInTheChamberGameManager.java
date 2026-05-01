@@ -161,7 +161,7 @@ public class OneInTheChamberGameManager {
         List<Player> alivePlayers = new ArrayList<>(context.getAlivePlayers());
         String winMode = outcomeService.getWinMode(context);
         if (alivePlayers.size() == 1 && "last_standing".equals(winMode)) {
-            Player winner = alivePlayers.getFirst();
+            Player winner = alivePlayers.get(0);
             context.setWinner(winner);
             awardWin(winner);
         } else if (alivePlayers.size() > 1 && "last_standing".equals(winMode)) {
@@ -350,7 +350,7 @@ public class OneInTheChamberGameManager {
             return;
         }
 
-        Player winner = topPlayers.getFirst();
+        Player winner = topPlayers.get(0);
         context.setWinner(winner);
         awardWin(winner);
 
@@ -370,7 +370,7 @@ public class OneInTheChamberGameManager {
             return;
         }
 
-        Player winner = sortedByKills.getFirst();
+        Player winner = sortedByKills.get(0);
         context.setWinner(winner);
         awardWin(winner);
 
