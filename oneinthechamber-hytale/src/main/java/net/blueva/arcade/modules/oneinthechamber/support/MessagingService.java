@@ -106,8 +106,8 @@ public class MessagingService {
         }
 
         message = message
-                .replace("{victim}", victim.getDisplayName())
-                .replace("{killer}", killer != null ? killer.getDisplayName() : "");
+                .replace("{victim}", victim.getPlayerRef().getUsername())
+                .replace("{killer}", killer != null ? killer.getPlayerRef().getUsername() : "");
 
         for (Player player : context.getPlayers()) {
             context.getMessagesAPI().sendRaw(player, message);

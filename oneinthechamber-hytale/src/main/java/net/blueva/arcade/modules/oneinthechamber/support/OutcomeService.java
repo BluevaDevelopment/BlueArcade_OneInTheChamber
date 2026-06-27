@@ -67,7 +67,7 @@ public class OutcomeService {
             if (compare != 0) {
                 return compare;
             }
-            return a.getKey().getDisplayName().compareToIgnoreCase(b.getKey().getDisplayName());
+            return a.getKey().getPlayerRef().getUsername().compareToIgnoreCase(b.getKey().getPlayerRef().getUsername());
         });
 
         List<Player> orderedPlayers = new ArrayList<>();

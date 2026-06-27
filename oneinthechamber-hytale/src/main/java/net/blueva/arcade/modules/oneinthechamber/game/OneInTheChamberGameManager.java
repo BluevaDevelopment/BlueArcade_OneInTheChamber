@@ -18,10 +18,12 @@ import net.blueva.arcade.modules.oneinthechamber.support.OutcomeService;
 import net.blueva.arcade.modules.oneinthechamber.support.StatsService;
 import net.blueva.arcade.modules.oneinthechamber.support.SupplyService;
 import com.hypixel.hytale.math.vector.Location;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
+import com.hypixel.hytale.math.vector.Rotation3f;
+import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.entity.Entity;
+import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import org.joml.Vector3d;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.HiddenPlayersManager;
 import com.hypixel.hytale.server.core.entity.entities.player.movement.MovementManager;
@@ -348,7 +350,7 @@ public class OneInTheChamberGameManager {
                     String killsKey = "kills_" + (i + 1);
                     if (topPlayers.size() > i) {
                         Player topPlayer = topPlayers.get(i);
-                        placeholders.put(placeKey, topPlayer.getDisplayName());
+                        placeholders.put(placeKey, topPlayer.getPlayerRef().getUsername());
                         placeholders.put(killsKey, String.valueOf(killTracker.getKills(topPlayer)));
                     } else {
                         placeholders.put(placeKey, "-");
@@ -488,12 +490,18 @@ public class OneInTheChamberGameManager {
     }
 
     private Location resolvePlayerLocation(Player player) {
-        if (player == null || player.getWorld() == null || player.getTransformComponent() == null) {
+        if (player == null || player.getWorld() == null || player.getReference() == null) {
             return null;
         }
-        Vector3d position = player.getTransformComponent().getPosition();
-        Vector3f rotation = player.getTransformComponent().getRotation();
-        return new Location(player.getWorld().getName(), position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
+        Ref<EntityStore> ref = player.getReference();
+        Store<EntityStore> store = ref.getStore();
+        TransformComponent transform = store.getComponent(ref, TransformComponent.getComponentType());
+        if (transform == null) {
+            return null;
+        }
+        Vector3d position = transform.getPosition();
+        Rotation3f rotation = transform.getRotation();
+        return new Location(player.getWorld().getName(), position.x, position.y, position.z, rotation.pitch(), rotation.yaw(), rotation.roll());
     }
 
     private void applyTemporarySpectatorState(GameContext<Player, Location, World, String, ItemStack, String, Holder, Entity> context,
