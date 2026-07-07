@@ -1,10 +1,17 @@
-file_version: 1
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
+
 category:
-  id: one_in_the_chamber
+  id: "one_in_the_chamber"
   name: "One In The Chamber"
   description:
     - "Achievements tied to One In The Chamber."
-  icon: Weapon_Shortbow_Iron
+  icon: "Weapon_Shortbow_Iron"
   sort_order: 23
 
 achievements:
@@ -12,7 +19,7 @@ achievements:
     name: "Chamber Regular"
     description:
       - "Play One In The Chamber matches."
-    icon: Weapon_Sword_Wood
+    icon: "Weapon_Sword_Wood"
     phases:
       1:
         name: "First duel"
@@ -26,7 +33,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=10"
           messages:
             - "  <gold>C</gold> <yellow>+10 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+10 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+10 XP</light_purple>"
       2:
         name: "Getting comfy"
         description:
@@ -39,7 +46,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=25"
           messages:
             - "  <gold>C</gold> <yellow>+25 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+25 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+25 XP</light_purple>"
       3:
         name: "Arena regular"
         description:
@@ -52,7 +59,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=40"
           messages:
             - "  <gold>C</gold> <yellow>+40 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+40 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+40 XP</light_purple>"
       4:
         name: "Lobby fixture"
         description:
@@ -65,7 +72,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=60"
           messages:
             - "  <gold>C</gold> <yellow>+60 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+60 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+60 XP</light_purple>"
       5:
         name: "Permanent resident"
         description:
@@ -78,13 +85,13 @@ achievements:
             - "baa xp --action=give --target={player} --amount=90"
           messages:
             - "  <gold>C</gold> <yellow>+90 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+90 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+90 XP</light_purple>"
 
   deadeye:
     name: "Deadeye"
     description:
       - "Eliminate opponents with precision."
-    icon: Weapon_Arrow_Crude
+    icon: "Weapon_Arrow_Crude"
     phases:
       1:
         name: "First shot"
@@ -98,7 +105,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=20"
           messages:
             - "  <gold>C</gold> <yellow>+20 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+20 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+20 XP</light_purple>"
       2:
         name: "Chain reaction"
         description:
@@ -111,7 +118,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=45"
           messages:
             - "  <gold>C</gold> <yellow>+45 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+45 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+45 XP</light_purple>"
       3:
         name: "Hot streak"
         description:
@@ -124,7 +131,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=70"
           messages:
             - "  <gold>C</gold> <yellow>+70 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+70 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+70 XP</light_purple>"
       4:
         name: "Relentless"
         description:
@@ -137,7 +144,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=90"
           messages:
             - "  <gold>C</gold> <yellow>+90 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+90 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+90 XP</light_purple>"
       5:
         name: "One-shot legend"
         description:
@@ -150,13 +157,13 @@ achievements:
             - "baa xp --action=give --target={player} --amount=120"
           messages:
             - "  <gold>C</gold> <yellow>+120 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+120 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+120 XP</light_purple>"
 
   marksman:
     name: "Marksman"
     description:
       - "Land arrows or melee hits."
-    icon: Weapon_Shortbow_Iron
+    icon: "Weapon_Shortbow_Iron"
     phases:
       1:
         name: "Steady aim"
@@ -170,7 +177,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=15"
           messages:
             - "  <gold>C</gold> <yellow>+15 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+15 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+15 XP</light_purple>"
       2:
         name: "Consistent shot"
         description:
@@ -183,7 +190,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=35"
           messages:
             - "  <gold>C</gold> <yellow>+35 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+35 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+35 XP</light_purple>"
       3:
         name: "Surefire"
         description:
@@ -196,7 +203,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=55"
           messages:
             - "  <gold>C</gold> <yellow>+55 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+55 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+55 XP</light_purple>"
       4:
         name: "Bullseye"
         description:
@@ -209,7 +216,7 @@ achievements:
             - "baa xp --action=give --target={player} --amount=80"
           messages:
             - "  <gold>C</gold> <yellow>+80 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+80 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+80 XP</light_purple>"
       5:
         name: "Unerring"
         description:
@@ -222,4 +229,4 @@ achievements:
             - "baa xp --action=give --target={player} --amount=120"
           messages:
             - "  <gold>C</gold> <yellow>+120 credits</yellow>"
-            - "  <purple>XP</purple> <light_purple>+120 XP</light_purple>"
+            - "  <dark_purple>XP</dark_purple> <light_purple>+120 XP</light_purple>"

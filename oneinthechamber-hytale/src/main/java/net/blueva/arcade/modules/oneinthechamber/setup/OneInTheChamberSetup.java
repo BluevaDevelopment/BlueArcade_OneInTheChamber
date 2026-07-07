@@ -34,7 +34,7 @@ public class OneInTheChamberSetup implements GameSetupHandler {
         String subcommand = context.getArg(context.getStartIndex() - 1);
         if (subcommand == null) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.usage"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.usage"));
             return true;
         }
 
@@ -49,7 +49,7 @@ public class OneInTheChamberSetup implements GameSetupHandler {
         }
 
         context.getMessagesAPI().sendRaw(context.getPlayer(),
-                coreConfig.getLanguage("admin_commands.errors.unknown_subcommand"));
+                coreConfig.getLanguage(context.getPlayer(), "admin_commands.errors.unknown_subcommand"));
         return true;
     }
 
@@ -91,14 +91,14 @@ public class OneInTheChamberSetup implements GameSetupHandler {
     private boolean handleSetMode(SetupContext<Player, CommandSender, Location> context) {
         if (!context.hasHandlerArgs(1)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.usage_setmode"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.usage_setmode"));
             return true;
         }
 
         String mode = context.getHandlerArg(0).toLowerCase();
         if (!mode.equals("last_standing") && !mode.equals("most_kills")) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.usage_setmode"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.usage_setmode"));
             return true;
         }
 
@@ -106,7 +106,7 @@ public class OneInTheChamberSetup implements GameSetupHandler {
         context.getData().save();
 
         context.getMessagesAPI().sendRaw(context.getPlayer(),
-                moduleConfig.getStringFrom("language.yml", "setup_messages.mode_set")
+                moduleConfig.getTranslation(context.getPlayer(), "setup_messages.mode_set")
                         .replace("{mode}", mode));
         return true;
     }
@@ -114,20 +114,20 @@ public class OneInTheChamberSetup implements GameSetupHandler {
     private boolean handleSetRegion(SetupContext<Player, CommandSender, Location> context) {
         if (!context.isPlayer()) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    coreConfig.getLanguage("admin_commands.errors.must_be_player"));
+                    coreConfig.getLanguage(context.getPlayer(), "admin_commands.errors.must_be_player"));
             return true;
         }
 
         if (!context.hasHandlerArgs(1)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.usage_setregion"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.usage_setregion"));
             return true;
         }
 
         String action = context.getHandlerArg(0).toLowerCase();
         if (!action.equals("set")) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.usage_setregion"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.usage_setregion"));
             return true;
         }
 
@@ -135,7 +135,7 @@ public class OneInTheChamberSetup implements GameSetupHandler {
 
         if (!context.getSelection().hasCompleteSelection(player)) {
             context.getMessagesAPI().sendRaw(player,
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.must_use_stick"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.must_use_stick"));
             return true;
         }
 
@@ -153,7 +153,7 @@ public class OneInTheChamberSetup implements GameSetupHandler {
         int blocks = x * y * z;
 
         context.getMessagesAPI().sendRaw(player,
-                moduleConfig.getStringFrom("language.yml", "setup_messages.region_set")
+                moduleConfig.getTranslation(context.getPlayer(), "setup_messages.region_set")
                         .replace("{blocks}", String.valueOf(blocks))
                         .replace("{x}", String.valueOf(x))
                         .replace("{y}", String.valueOf(y))

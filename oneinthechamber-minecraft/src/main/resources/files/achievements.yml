@@ -1,10 +1,17 @@
-file_version: 1
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
+
 category:
-  id: one_in_the_chamber
+  id: "one_in_the_chamber"
   name: "One In The Chamber"
   description:
     - "Achievements tied to One In The Chamber."
-  icon: BOW
+  icon: "BOW"
   sort_order: 23
 
 achievements:
@@ -12,7 +19,7 @@ achievements:
     name: "Chamber Regular"
     description:
       - "Play One In The Chamber matches."
-    icon: WOODEN_SWORD
+    icon: "WOODEN_SWORD"
     phases:
       1:
         name: "First duel"
@@ -84,7 +91,7 @@ achievements:
     name: "Deadeye"
     description:
       - "Eliminate opponents with precision."
-    icon: ARROW
+    icon: "ARROW"
     phases:
       1:
         name: "First shot"
@@ -156,7 +163,7 @@ achievements:
     name: "Marksman"
     description:
       - "Land arrows or melee hits."
-    icon: CROSSBOW
+    icon: "CROSSBOW"
     phases:
       1:
         name: "Steady aim"

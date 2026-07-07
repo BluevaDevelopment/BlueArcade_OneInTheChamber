@@ -143,21 +143,20 @@ public class OneInTheChamberGameManager {
             }
 
             supplyService.tickSupplies(currentState);
-
-            String actionBarTemplate = coreConfig.getLanguage("action_bar.in_game.global");
             for (Player player : allPlayers) {
+                String actionBarTemplate = coreConfig.getLanguage(player, "action_bar.in_game.global");
                 if (player == null) {
                     continue;
                 }
 
                 Map<String, String> customPlaceholders = getCustomPlaceholders(player);
-                customPlaceholders.put("time", String.valueOf(timeLeft[0]));
+                customPlaceholders.put("time", formatCountdownTime(timeLeft[0]));
                 customPlaceholders.put("alive", String.valueOf(alivePlayers.size()));
                 customPlaceholders.put("spectators", String.valueOf(context.getSpectators().size()));
 
                 if (actionBarTemplate != null) {
                     String actionBarMessage = actionBarTemplate
-                            .replace("{time}", String.valueOf(timeLeft[0]))
+                            .replace("{time}", formatCountdownTime(timeLeft[0]))
                             .replace("{round}", String.valueOf(context.getCurrentRound()))
                             .replace("{round_max}", String.valueOf(context.getMaxRounds()));
                     context.getMessagesAPI().sendActionBar(player, actionBarMessage);
@@ -271,8 +270,8 @@ public class OneInTheChamberGameManager {
             applyTemporarySpectatorState(context, target);
             if (killer != null) {
                 context.getTitlesAPI().sendRaw(target,
-                        moduleConfig.getStringFrom("language.yml", "titles.you_died.title"),
-                        moduleConfig.getStringFrom("language.yml", "titles.you_died.subtitle"),
+                        moduleConfig.getTranslation(target, "titles.you_died.title"),
+                        moduleConfig.getTranslation(target, "titles.you_died.subtitle"),
                         0, 80, 20);
             }
 
@@ -296,7 +295,7 @@ public class OneInTheChamberGameManager {
             return;
         }
 
-        context.eliminatePlayer(target, moduleConfig.getStringFrom("language.yml", "messages.eliminated"));
+        context.eliminatePlayer(target, moduleConfig.getTranslation(target, "messages.eliminated"));
         loadoutService.clearInventory(target);
         messagingService.sendDeathTitle(context, target, killer != null);
     }
@@ -342,7 +341,7 @@ public class OneInTheChamberGameManager {
             placeholders.put("kills", String.valueOf(killTracker.getKills(player)));
 
             String winMode = outcomeService.getWinMode(context);
-            placeholders.put("mode", outcomeService.getModeLabel(winMode));
+            placeholders.put("mode", outcomeService.getModeLabel(player, winMode));
             if ("most_kills".equals(winMode)) {
                 List<Player> topPlayers = outcomeService.getTopPlayersByKills(context, context.getPlayers(), 5);
                 for (int i = 0; i < 5; i++) {
@@ -641,4 +640,10 @@ public class OneInTheChamberGameManager {
             statMap.maximizeStatValue(healthStatId);
         });
     }
+
+    private static String formatCountdownTime(int seconds) {
+        int safeSeconds = Math.max(0, seconds);
+        return String.format("%02d:%02d", safeSeconds / 60, safeSeconds % 60);
+    }
+
 }

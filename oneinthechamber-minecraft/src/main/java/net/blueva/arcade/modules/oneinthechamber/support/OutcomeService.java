@@ -36,11 +36,11 @@ public class OutcomeService {
         return mode;
     }
 
-    public String getModeLabel(String mode) {
+    public String getModeLabel(Player player, String mode) {
         if ("most_kills".equals(mode)) {
-            return moduleConfig.getStringFrom("language.yml", "scoreboard.mode_labels.most_kills");
+            return moduleConfig.getTranslation(player, "scoreboard.mode_labels.most_kills");
         }
-        return moduleConfig.getStringFrom("language.yml", "scoreboard.mode_labels.last_standing");
+        return moduleConfig.getTranslation(player, "scoreboard.mode_labels.last_standing");
     }
 
     public String getScoreboardPath(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context) {
