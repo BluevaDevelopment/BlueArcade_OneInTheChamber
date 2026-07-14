@@ -239,7 +239,7 @@ public class OneInTheChamberGameManager {
 
         String winMode = outcomeService.getWinMode(context);
         if ("most_kills".equals(winMode)) {
-            context.setPlayerSpectating(target, true);
+            target.setGameMode(GameMode.SPECTATOR);
             target.getInventory().clear();
             if (killer != null) {
                 context.getTitlesAPI().sendRaw(target,
