@@ -116,7 +116,9 @@ public class OneInTheChamberGameManager {
             List<Player> alivePlayers = context.getAlivePlayers();
             List<Player> allPlayers = context.getPlayers();
 
-            if (alivePlayers.size() <= 1 || timeLeft[0] <= 0) {
+            String winMode = outcomeService.getWinMode(context);
+            boolean lastStandingFinished = "last_standing".equals(winMode) && alivePlayers.size() <= 1;
+            if (lastStandingFinished || timeLeft[0] <= 0) {
                 endGameOnce(context);
                 return;
             }
@@ -239,8 +241,7 @@ public class OneInTheChamberGameManager {
 
         String winMode = outcomeService.getWinMode(context);
         if ("most_kills".equals(winMode)) {
-            target.setGameMode(GameMode.SPECTATOR);
-            target.getInventory().clear();
+            context.setPlayerSpectating(target, true);
             if (killer != null) {
                 context.getTitlesAPI().sendRaw(target,
                         moduleConfig.getTranslation(target, "titles.you_died.title"),
@@ -251,25 +252,30 @@ public class OneInTheChamberGameManager {
             int respawnDelayTicks = Math.max(0, moduleConfig.getInt("respawn.most_kills_delay_ticks", 60));
             int arenaId = context.getArenaId();
             context.getSchedulerAPI().runLater(
-                    "one_in_the_chamber_respawn_" + arenaId + "_" + target.getUniqueId(),
-                    () -> {
+                    "arena_" + arenaId + "_one_in_the_chamber_respawn_" + target.getUniqueId(),
+                    () -> context.getSchedulerAPI().runAtEntity(target, () -> {
                         ArenaState state = arenaRegistry.get(arenaId);
-                        if (state == null || state.isEnded() || !context.isPlayerPlaying(target)) {
+                        if (state == null
+                                || state.isEnded()
+                                || !target.isOnline()
+                                || !context.hasPlayer(target)
+                                || !context.isPlayerSpectating(target)) {
                             return;
                         }
+                        context.setPlayerSpectating(target, false);
                         context.respawnPlayer(target);
                         target.setGameMode(GameMode.SURVIVAL);
+                        target.setFlying(false);
+                        target.setAllowFlight(false);
                         loadoutService.applyRespawnLoadout(target);
                         context.getSoundsAPI().play(target, coreConfig.getSound("sounds.in_game.respawn"));
-                    },
+                    }),
                     respawnDelayTicks
             );
             return;
         }
 
         context.eliminatePlayer(target, moduleConfig.getTranslation(target, "messages.eliminated"));
-        target.getInventory().clear();
-        context.setPlayerSpectating(target, true);
         messagingService.sendDeathTitle(context, target, killer != null);
     }
 

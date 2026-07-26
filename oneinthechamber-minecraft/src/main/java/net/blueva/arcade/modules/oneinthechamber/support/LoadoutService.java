@@ -28,6 +28,8 @@ public class LoadoutService {
     }
 
     public void applyRespawnLoadout(Player player) {
+        player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
         restorePlayerHealthAndHunger(player);
         giveStartingItems(player);
         ensureMinimumArrows(player);
