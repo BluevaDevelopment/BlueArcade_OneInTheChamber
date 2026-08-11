@@ -222,6 +222,59 @@ public class OneInTheChamberGameManager {
         loadoutService.rewardKillArrow(killer);
     }
 
+    public void recordHit(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context,
+                          Player victim,
+                          Player attacker) {
+        if (context == null || victim == null || attacker == null) {
+            return;
+        }
+        ArenaState state = arenaRegistry.get(context.getArenaId());
+        if (state != null) {
+            state.recordHit(victim.getUniqueId(), attacker.getUniqueId());
+        }
+    }
+
+    /**
+     * Falling and other environmental deaths still count as a kill when someone hit the victim
+     * shortly before: knocking an enemy off the arena is a normal way to win a fight.
+     */
+    public void handleNonCombatDeath(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context,
+                                     Player target) {
+        Player killer = resolveRecentAttacker(context, target);
+        if (killer != null) {
+            handleKillCredit(context, killer);
+            handlePlayerElimination(context, target, killer);
+            return;
+        }
+
+        handlePlayerElimination(context, target, null);
+    }
+
+    private Player resolveRecentAttacker(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context,
+                                         Player victim) {
+        if (context == null || victim == null) {
+            return null;
+        }
+
+        ArenaState state = arenaRegistry.get(context.getArenaId());
+        if (state == null) {
+            return null;
+        }
+
+        long windowMillis = Math.max(0, moduleConfig.getInt("kills.credit_window_ticks", 200)) * 50L;
+        UUID attackerId = state.getRecentAttacker(victim.getUniqueId(), windowMillis);
+        if (attackerId == null) {
+            return null;
+        }
+
+        for (Player player : context.getPlayers()) {
+            if (player.getUniqueId().equals(attackerId) && context.isPlayerPlaying(player)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     public void handlePlayerElimination(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context,
                                         Player target,
                                         Player killer) {
@@ -232,6 +285,11 @@ public class OneInTheChamberGameManager {
         // Don't eliminate spectators
         if (context.getSpectators().contains(target)) {
             return;
+        }
+
+        ArenaState arenaState = arenaRegistry.get(context.getArenaId());
+        if (arenaState != null) {
+            arenaState.clearCombatTag(target.getUniqueId());
         }
 
         Location deathLocation = target.getLocation();

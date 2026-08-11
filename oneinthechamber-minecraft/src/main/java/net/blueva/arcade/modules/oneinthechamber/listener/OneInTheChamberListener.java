@@ -139,6 +139,7 @@ public class OneInTheChamberListener implements Listener {
         }
 
         gameManager.handleHit(attacker);
+        gameManager.recordHit(context, target, attacker);
 
         boolean projectileHit = event.getDamager() instanceof AbstractArrow;
         double finalHealth = projectileHit ? -1 : target.getHealth() - event.getFinalDamage();
@@ -177,7 +178,7 @@ public class OneInTheChamberListener implements Listener {
         }
 
         event.setCancelled(true);
-        gameManager.handlePlayerElimination(context, target, null);
+        gameManager.handleNonCombatDeath(context, target);
     }
 
     private Player resolveAttacker(Entity damager) {
